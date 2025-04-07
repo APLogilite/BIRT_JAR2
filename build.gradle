@@ -3,8 +3,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
-group = 'com.github.APLogilite'
-//version = 'v1.0.0'
+group = project.hasProperty('group') ? project.group : 'com.github.APLogilite'  // Use the -Pgroup if provided
+version = project.hasProperty('version') ? project.version : 'v1.0.0' // Use the -Pversion if provided
 
 repositories {
     mavenCentral()
@@ -17,7 +17,7 @@ dependencies {
 
 shadowJar {
     archiveBaseName.set('BIRT')
-    // archiveVersion.set('v1.0.0')
+    archiveVersion.set(version)
 
     from("${projectDir}/libs") {
         include("*.jar")
@@ -26,8 +26,8 @@ shadowJar {
 
     manifest {
         attributes(
-            'Implementation-Title': 'BIRT'
-          //  'Implementation-Version': version
+            'Implementation-Title': 'BIRT',
+            'Implementation-Version': version 
         )
     }
 }
