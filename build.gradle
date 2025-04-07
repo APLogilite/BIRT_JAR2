@@ -1,22 +1,37 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
 
-group = 'com.github.APLogilite'  // Your GitHub username
-version = 'v1.0.0'                // Version tag
+group = 'com.github.APLogilite'
+//version = 'v1.0.0'
 
 repositories {
+    mavenCentral()
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    // You can still add specific JARs if needed
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-jar {
-    // No Main-Class needed for non-executable jar
-     from("${projectDir}/libs") {
+shadowJar {
+    archiveBaseName.set('BIRT')
+    // archiveVersion.set('v1.0.0')
+
+    from("${projectDir}/libs") {
         include("*.jar")
-        into "META-INF/libs"
+        into("META-INF/libs")
+    }
+
+    manifest {
+        attributes(
+            'Implementation-Title': 'BIRT'
+          //  'Implementation-Version': version
+        )
     }
 }
+
+// Make shadowJar run automatically as part of the build task
+build.dependsOn shadowJar
 
