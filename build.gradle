@@ -35,3 +35,17 @@ shadowJar {
 // Make shadowJar run automatically as part of the build task
 build.dependsOn shadowJar
 
+task copyJars(type: Copy) {
+    // Define the source directory containing your JAR files
+    from("${projectDir}/libs") {
+        include("*.jar")  // Include all JAR files in the directory
+    }
+    
+    // Define the destination directory
+    into("$buildDir/libs")  // Copy to build/libs directory
+}
+
+// Ensure that the 'copyJars' task runs automatically when the build task runs
+build.dependsOn copyJars
+
+
