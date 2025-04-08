@@ -43,6 +43,12 @@ task copyJars(type: Copy) {
     into("$buildDir/libs")  // Copy to build/libs directory
 }
 
+task publishToMavenLocal {
+    dependsOn copyJars  // Make sure 'copyJars' runs before publishing
+    dependsOn shadowJar  // Also ensure 'shadowJar' runs if needed
+}
+
+
 // Ensure that the 'copyJars' task runs automatically when the build task runs
 build.dependsOn shadowJar, copyJars
 
